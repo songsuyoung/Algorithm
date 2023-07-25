@@ -1,6 +1,21 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+int dfs(int N,bool *isVisited,bool computers[][150],int st){
+    int cnt=1; //자기자신 포함
+    
+    if(isVisited[st])
+        return 0;
+        
+    isVisited[st]=true;
+    
+    for(int i=1;i<=N;i++){
+        if(!isVisited[i]&&computers[st][i]){
+            cnt+=dfs(N,isVisited,computers,i);
+        }
+    }
+    return cnt;
+}
 
 int bfs(int N,bool *isVisited,bool computers[][102]){ //bfs 너비우선탐색 queue dfs 깊이우선탐색 stack
 
