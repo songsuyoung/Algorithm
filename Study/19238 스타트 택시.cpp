@@ -10,7 +10,7 @@ bool compare(pair<pair<int, int>, pair<int, int>>& a, pair<pair<int, int>, pair<
 	return a.first.first < b.first.first;
 
 }
-//vectorÀÇ À§Ä¡¸¦ ¸®ÅÏÇÏÀÚ
+//vectorì˜ ìœ„ì¹˜ë¥¼ ë¦¬í„´í•˜ì
 int FindMinBfs(int N,int arr[][21],pair<int, int>& curPos, vector<pair<pair<int, int>, pair<int, int>>>& people, bool isRiding[])
 {
 	bool isVisited[21][21] = {};
@@ -45,7 +45,7 @@ int FindMinBfs(int N,int arr[][21],pair<int, int>& curPos, vector<pair<pair<int,
 		}
 	}
 
-	//°¡Àå ÀÛÀº À§Ä¡ÀÇ endÁ¡À» ¸®ÅÏÇÑ´Ù.
+	//ê°€ì¥ ì‘ì€ ìœ„ì¹˜ì˜ endì ì„ ë¦¬í„´í•œë‹¤.
 	pair<int, int> start = make_pair(INT_MAX,INT_MAX);
 	pair<int, int> end = make_pair(INT_MAX,INT_MAX);
 	int retIdx = 0;
@@ -63,7 +63,7 @@ int FindMinBfs(int N,int arr[][21],pair<int, int>& curPos, vector<pair<pair<int,
 			}
 			else if (dist[people[i].first.first][people[i].first.second] == minVal)
 			{
-				//ÇàÀÌ ´õ ÀÛ¾Æ
+				//í–‰ì´ ë” ì‘ì•„
 				if (start.first > people[i].first.first)
 				{
 					start = people[i].first;
@@ -73,7 +73,7 @@ int FindMinBfs(int N,int arr[][21],pair<int, int>& curPos, vector<pair<pair<int,
 				}
 				else if (start.first == people[i].first.first)
 				{
-					//ÇàÀÌ °°À» °æ¿ì ¿­ÀÌ ´õ ÀÛÀº ¾Ö·Î ¸®¼Â
+					//í–‰ì´ ê°™ì„ ê²½ìš° ì—´ì´ ë” ì‘ì€ ì• ë¡œ ë¦¬ì…‹
 					if (start.second >= people[i].first.second)
 					{
 						start = people[i].first;
@@ -94,14 +94,14 @@ int GoTaxiBfs(int N, int K, int arr[][21], pair<int, int>& pos, vector<pair<pair
 	int numberOfRides = 0;
 
 	bool isVisited[21][21] = {};
-	bool isRiding[401] = {}; //20*20 =>400¸í ÅÂ¿ï ¼ö ÀÖÀ½.
-	queue<pair<pair<int, int>, int>> q; //À§Ä¡, »ç¿ë·®
+	bool isRiding[401] = {}; //20*20 =>400ëª… íƒœìš¸ ìˆ˜ ìˆìŒ.
+	queue<pair<pair<int, int>, int>> q; //ìœ„ì¹˜, ì‚¬ìš©ëŸ‰
 	q.push(make_pair(pos, K));
 	int rows[4] = { -1,0,1,0 };
 	int cols[4] = { 0,-1,0,1 };
 	bool isEmpty = true;
 	int preFuelAmount = 0;
-	int endIdx = FindMinBfs(N, arr, pos, people,isRiding); //¼Õ´ÔÀº 1¸í ÀÌ»óÀÌ±â ¶§¹®¿¡ -1ÀÌ ³ª¿ÀÁö¾ÊÀ½
+	int endIdx = FindMinBfs(N, arr, pos, people,isRiding); //ì†ë‹˜ì€ 1ëª… ì´ìƒì´ê¸° ë•Œë¬¸ì— -1ì´ ë‚˜ì˜¤ì§€ì•ŠìŒ
 	pair<int, int> end = people[endIdx].second;
 	while (!q.empty())
 	{
@@ -111,7 +111,7 @@ int GoTaxiBfs(int N, int K, int arr[][21], pair<int, int>& pos, vector<pair<pair
 		q.pop();
 		if (isVisited[pos.first][pos.second]) continue;
 
-		//½ÇÆĞ
+		//ì‹¤íŒ¨
 		if (numberOfRides < people.size() && amount < 0)
 		{
 			return -1;
@@ -120,7 +120,7 @@ int GoTaxiBfs(int N, int K, int arr[][21], pair<int, int>& pos, vector<pair<pair
 		if (isEmpty==false&& end == pos)
 		{
 			amount=amount+(preFuelAmount - amount) * 2;
-			endIdx = FindMinBfs(N, arr, pos, people,isRiding); //¼Õ´Ô ¾øÀ½
+			endIdx = FindMinBfs(N, arr, pos, people,isRiding); //ì†ë‹˜ ì—†ìŒ
 			if (endIdx == -1)
 			{
 				end == make_pair(0, 0);
@@ -129,15 +129,15 @@ int GoTaxiBfs(int N, int K, int arr[][21], pair<int, int>& pos, vector<pair<pair
 			{
 				end = people[endIdx].second;
 			}
-			numberOfRides++; //ÇÑ¸í ÅÂ¿üÀ½
-			isEmpty = true; //¼Õ´Ô ³»¸²
-			//ÀÌÀü queue ¸ğµÎ ¾ø¾Ö°í, ¿¬·áµµ º¯°æÇÑ´Ù.
+			numberOfRides++; //í•œëª… íƒœì› ìŒ
+			isEmpty = true; //ì†ë‹˜ ë‚´ë¦¼
+			//ì´ì „ queue ëª¨ë‘ ì—†ì• ê³ , ì—°ë£Œë„ ë³€ê²½í•œë‹¤.
 			while (!q.empty())
 			{
 				q.pop();
 			}
 
-			//ÇöÀç ¹æ¹® Ã³¸® ¸®¼Â
+			//í˜„ì¬ ë°©ë¬¸ ì²˜ë¦¬ ë¦¬ì…‹
 			for (int j = 1; j <= N; j++)
 			{
 				for (int k = 1; k <= N; k++)
@@ -146,7 +146,7 @@ int GoTaxiBfs(int N, int K, int arr[][21], pair<int, int>& pos, vector<pair<pair
 				}
 			}
 		}
-		//¼º°ø
+		//ì„±ê³µ
 		if (numberOfRides == people.size())
 		{
 			return amount;
@@ -159,12 +159,12 @@ int GoTaxiBfs(int N, int K, int arr[][21], pair<int, int>& pos, vector<pair<pair
 			{
 				preFuelAmount = amount;
 				isEmpty = false;
-				//queue¿¡ µé¾îÀÖ´Â ¸ğµç ³»¿ë¹° ¸®¼Â
+				//queueì— ë“¤ì–´ìˆëŠ” ëª¨ë“  ë‚´ìš©ë¬¼ ë¦¬ì…‹
 				while (!q.empty())
 				{
 					q.pop();
 				}
-				//ÇöÀç ¹æ¹® Ã³¸® ¸®¼Â
+				//í˜„ì¬ ë°©ë¬¸ ì²˜ë¦¬ ë¦¬ì…‹
 				for (int j = 1; j <= N; j++)
 				{
 					for (int k = 1; k <= N; k++)
@@ -175,13 +175,13 @@ int GoTaxiBfs(int N, int K, int arr[][21], pair<int, int>& pos, vector<pair<pair
 			}
 		}
 
-		//ÅÃ½Ã ÀÌµ¿
+		//íƒì‹œ ì´ë™
 		for (int i = 0; i < 4; i++)
 		{
 			pair<int, int> next = make_pair(pos.first + rows[i], pos.second + cols[i]);
 
 			if (next.first <= 0 || next.second <= 0 || next.second > N || next.first > N || arr[next.first][next.second] == 1||isVisited[next.first][next.second]) continue;
-			q.push(make_pair(next, amount - 1)); //»óÇÏÁÂ¿ì ÀÌµ¿ÇÒ ½Ã ¿¬·á ¼Òºñ
+			q.push(make_pair(next, amount - 1)); //ìƒí•˜ì¢Œìš° ì´ë™í•  ì‹œ ì—°ë£Œ ì†Œë¹„
 		}
 	}
 
@@ -198,12 +198,12 @@ int main()
 	{
 		for (int j = 1; j <= N; j++)
 		{
-			cin >> arr[i][j]; //1Àº º®
+			cin >> arr[i][j]; //1ì€ ë²½
 		}
 	}
 
 	pair<int, int> pos;
-	cin >> pos.first >> pos.second; //ÅÃ½Ã ½ÃÀÛ À§Ä¡
+	cin >> pos.first >> pos.second; //íƒì‹œ ì‹œì‘ ìœ„ì¹˜
 
 	vector<pair<pair<int, int>, pair<int, int>>> v;
 
@@ -212,7 +212,7 @@ int main()
 		int sr, sc, er, ec;
 		cin >> sr >> sc >> er >> ec;
 
-		v.push_back(make_pair(make_pair(sr, sc), make_pair(er, ec))); //½ÃÀÛ À§Ä¡ - Á¾·á À§Ä¡
+		v.push_back(make_pair(make_pair(sr, sc), make_pair(er, ec))); //ì‹œì‘ ìœ„ì¹˜ - ì¢…ë£Œ ìœ„ì¹˜
 	}
 
 	cout << GoTaxiBfs(N, K, arr,pos, v);
