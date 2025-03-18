@@ -10,34 +10,23 @@ int main()
 	int N, K;
 	cin >> N >> K;
 
-	vector<int> arr(N);
+	vector<int> psum(N+1,0);
 
-	for (int i = 0; i < N; i++)
+	//구간합
+	for (int i = 1; i <= N; i++)
 	{
-		cin >> arr[i];
+		int input;
+		cin >> input;
+		psum[i] = psum[i - 1] + input;
 	}
-
-	int frontIdx = 0;
-	int sum = 0; //-100 ~ 100 이상의 수를 100'000 이하이면.. 최대수 100 * 100'000 => 10'000'000 -> 즉 int 커버가능
 	
-	for (int i = 0; i < K; i++)
+	int frontIdx = 0, answer = INT_MIN;
+	for (int j = K; j <= N; j++)
 	{
-		sum += arr[i];
+		answer = max(answer, psum[j] - psum[frontIdx++]);
 	}
-
-	int answer = sum;
-
-	for (int i = K; i < N; i++)
-	{
-		answer = max(answer, sum);
-		sum -= arr[frontIdx++];
-		sum += arr[i];
-	}
-
-	answer = max(answer, sum);
 
 	cout << answer << '\n';
-	
 }
 
 
