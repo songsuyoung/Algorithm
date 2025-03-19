@@ -24,7 +24,7 @@ int main()
 		string input;
 		cin >> input;
 		
-		if (input[0] >= '0' && input[0] <= '9')
+		if (atoi(input.c_str()))
 		{
 			//숫자
 			cout << number[stoi(input)] << '\n';
