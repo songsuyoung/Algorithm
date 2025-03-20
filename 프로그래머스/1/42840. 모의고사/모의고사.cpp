@@ -29,12 +29,7 @@ vector<int> solution(vector<int> answers) {
         }
     }
     
-    int maxVal = INT_MIN;
-    for(int i=0; i<3; i++)
-    {
-        maxVal=max(maxVal, counting[i]);
-    }
-    
+    int maxVal = *max_element(counting.begin(), counting.end());
     for(int i=0; i<3; i++)
     {
         if(maxVal == counting[i])
