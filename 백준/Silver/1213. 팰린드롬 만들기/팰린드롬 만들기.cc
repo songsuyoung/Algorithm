@@ -20,44 +20,29 @@ int main()
 
 	//절반을 만든다. (앞글자)
 	string answer = "";
-	string odd = "";
-
-	for (int i = 0; i < 26; i++)
+	string mid = "";
+	for (int i = 26; i >= 0; i--)
 	{
-		int cnt = arr[i] / 2;
-
-		if (arr[i] % 2 == 1)
+		if (arr[i] & 1)
 		{
-			//홀수를 가운데에 배치하기 위해 빼놓는다.
-			odd += 'A' + i;
-			arr[i] -= 1; //짝수로 만든다.
+			//홀수 라면, 홀수는 항상 1의 자리가 1임. 짝수는 항상 1의 자리가 0임
+			mid += ('A' + i);
+			arr[i]--; //카운팅 배열 감소
 		}
-		arr[i] -= cnt;
-		for (int j = 0; j < cnt; j++)
+		
+		for (int k = 0; k < arr[i]; k += 2)
 		{
-			answer += 'A' + i;
+			//앞뒤로 붙여준다.
+			answer = char(i+'A') + answer;
+			answer += char(i + 'A');
 		}
 	}
-	
-	if (odd.size() >= 2)
+
+	answer.insert(answer.size()/2, mid);
+
+	if (mid.size() >= 2)
 	{
-		//홀수가 2개 이상이라면, 이 값을 사용해 팰린드롬을 만들 수 없다.
 		answer = "I'm Sorry Hansoo";
-	}
-	else
-	{
-		answer += odd; //홀수를 먼저 배치한다.
-
-		//절반을 만든다. (뒷글자)
-		for (int i = 26; i >= 0; i--)
-		{
-			int cnt = arr[i];
-
-			for (int j = 0; j < cnt; j++)
-			{
-				answer += 'A' + i;
-			}
-		}
 	}
 
 	cout << answer << '\n';
