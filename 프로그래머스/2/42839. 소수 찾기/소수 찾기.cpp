@@ -48,14 +48,27 @@ int solution(string numbers) {
     
     setPrime();
     
-    for(int i=1; i<=numbers.size(); i++)
+    sort(numbers.begin(), numbers.end());
+    
+    for(int i=1; i<=numbers.size();i++)
     {
-        for(int i=0; i<8; i++)
+        do
         {
-            isVisited[i]=false;
-        }
-        
-        recursive(numbers, "", i);
+            string res = "";
+            
+            for(int j=0; j<i; j++)
+            {
+               res += numbers[j]; 
+            }
+            
+            int res2 = stoi(res);
+
+            if(NotPrime[res2] == false)
+            {
+                st.insert(res2);   
+            }
+        }while(next_permutation(numbers.begin(), numbers.end()));
+
     }
     
     answer = st.size();
