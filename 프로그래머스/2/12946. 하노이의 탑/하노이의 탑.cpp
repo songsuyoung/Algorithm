@@ -1,48 +1,38 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
-void recursive(int num, int from, int tmp, int to, vector<vector<int>> &answer,int cnt)
+void hanoi(int from, int tmp, int to, int n,vector<vector<int>>& answer)
 {
-    if(num <= 1)
+    if(n <= 1)
     {
-        vector<int> v = {from, to};
-        answer.push_back(v);
+        answer.push_back({from,to});
         return;
     }
-    recursive(num-1, from,to,tmp,answer, cnt+1);
     
-    vector<int> v = {from, to};
-    answer.push_back(v);
-
-    recursive(num-1, tmp, from, to, answer, cnt+1);
+    hanoi(from, to, tmp,n-1,answer); //1->2
+    answer.push_back({from,to});
+    hanoi(tmp, from ,to,n-1,answer); //2->3
 }
-
 vector<vector<int>> solution(int n) {
     vector<vector<int>> answer;
-    recursive(n, 1, 2, 3,answer,0);
+    
+    hanoi(1,2,3,n,answer);
+    
     return answer;
 }
 
 /*
-한 번에 하나의 원판만 옮길 수 있다.
-큰 원판이 작은 원판 위에 있음 안된다.
+[1] 1->2
+[2] 2->3
 
-ㅇ)ㅖ)
+[1] 1->3
 
 
-n
-1 2 3
+from tmp to
 
-1->2
-1->3
-2->1
-3->2
-1->2
-1->3
-2->1
-2->3
-1->3
+from to tmp
+1     3   2
 
-n개의 원판을 3번 원판으로 옮기는 최소 수..
 
 */

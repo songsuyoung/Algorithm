@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 28.1 MB, 시간: 28.74 ms
+메모리: 27.9 MB, 시간: 24.17 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 03월 19일 10:46:16
+2025년 03월 26일 11:49:10
 
 ### 문제 설명
 
@@ -62,6 +62,5 @@
 <img src="https://i.imgur.com/Ent83gA.png" title="" alt="Imgur"><br>
 <img src="https://i.imgur.com/osJFfhF.png" title="" alt="Imgur"></p>
 
-![{26725AFF-45B5-44F5-95BB-5E5EC7A80595}](https://github.com/user-attachments/assets/2760a731-1092-4fd0-9eb9-267c9db459aa)
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://school.programmers.co.kr/learn/challenges
