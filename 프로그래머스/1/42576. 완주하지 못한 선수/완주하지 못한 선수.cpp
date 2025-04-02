@@ -4,27 +4,23 @@ using namespace std;
 string solution(vector<string> participant, vector<string> completion) {
     string answer = "";
     
-    unordered_map<string, int> participantCnt;
+    sort(participant.begin(), participant.end());
+    sort(completion.begin(), completion.end());
     
-    for(int i=0; i<participant.size(); i++)
+    int i=0;
+    for(; i<completion.size(); i++)
     {
-        participantCnt[participant[i]]++;
-    }
-    
-    for(int j=0; j<completion.size(); j++)
-    {
-        participantCnt[completion[j]]--;
-    }
-
-    for(const auto& cnt : participantCnt)
-    {
-        if(cnt.second>0)
+        if(participant[i]!=completion[i])
         {
-            answer=cnt.first;
+            answer = participant[i];
             break;
         }
     }
     
+    if(answer.empty())
+    {
+        answer = participant[i];
+    }
     return answer;
 }
 
