@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int recursive(vector<vector<int>>& triangle,int dp[][505], int r, int c)
+//0도 포함이기 때문에, 0일때 효율성이 떨어짐. -1로 초기화를 진행한다. 
+vector<vector<int>> dp(501, vector<int>(501, -1));
+int recursive(vector<vector<int>>& triangle, int r, int c)
 {
-    if(r>=triangle.size() || c>=triangle[r].size())
+    if(r>=triangle.size())
     {
         //최대로 도착
         return 0;
@@ -14,22 +16,16 @@ int recursive(vector<vector<int>>& triangle,int dp[][505], int r, int c)
         return dp[r][c];
     }
     
-    dp[r][c] = max(dp[r][c], recursive(triangle, dp, r+1,c) + triangle[r][c]); //대각선-왼쪽 이동
-    dp[r][c] = max(dp[r][c], recursive(triangle, dp, r+1,c+1) + triangle[r][c]); //대각선-오른쪽 이동
-   
-    return dp[r][c];
+    return dp[r][c] = triangle[r][c] + max(recursive(triangle, r+1,c),  recursive(triangle, r+1,c+1));
 }
 
 int solution(vector<vector<int>> triangle) {
-    int dp[505][505]; //왼쪽 대각선을 선택했냐, 오른쪽 대각선을 선택했냐에 따라 달라진다.
+    //int dp[505][505]; //왼쪽 대각선을 선택했냐, 오른쪽 대각선을 선택했냐에 따라 달라진다.
 
-    //0도 포함이기 때문에, 0일때 효율성이 떨어짐. -1로 초기화를 진행한다. 
-    memset(dp, 0, sizeof(int)*505*505);
+    int answer = recursive(triangle, 0,0); // => Top - Down 방식 (시간초과)
     
-    int answer = 0;
-    //= recursive(triangle,dp, 0,0); => bottom - up 방식 (시간초과)
-    
-    //top-down 방식 => 반복문
+    //Bottom-Up 방식 => 반복문
+    /*
     dp[0][0] = triangle[0][0];
     for(int i=1; i<triangle.size(); i++)
     {
@@ -45,7 +41,7 @@ int solution(vector<vector<int>> triangle) {
             answer = max(answer, dp[i][j]);
         }
     }
-
+    */
     return answer;
 }
 
