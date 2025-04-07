@@ -1,34 +1,27 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int bfs(int N, int M,const vector<string>& maze)
+int bfs(int N, int M, const vector<string>& maze)
 {
 
-	vector<vector<bool>> isVisited(N, vector<bool>(M, false));
+	vector<vector<int>> isVisited(N, vector<int>(M, 0));
 
-	queue<pair<pair<int, int>,int>> q; //위치 저장을 위함.
+	queue<pair<pair<int, int>, int>> q; //위치 저장을 위함.
 
 	//시작 1,1 -> 인덱스 0부터 시작하기 때문에 0,0 으로 보정
 	q.push({ { 0,0 },0 });
 
 	int rows[4] = { -1,1,0,0 };
 	int cols[4] = { 0,0,-1,1 };
-	
 
+	isVisited[0][0] = 1;
 	while (!q.empty())
 	{
 		pair<int, int> cur = q.front().first;
 		int cnt = q.front().second;
 		q.pop();
 
-		if (isVisited[cur.first][cur.second])
-		{
-			continue;
-		}
-
-		if (cur.first == N - 1 && cur.second == M - 1) return cnt+1;
-		
-		isVisited[cur.first][cur.second] = true;
+		if (cur.first == N - 1 && cur.second == M - 1) return isVisited[N-1][M-1];
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -38,7 +31,8 @@ int bfs(int N, int M,const vector<string>& maze)
 
 			if (nextR < 0 || nextC < 0 || nextR >= N || nextC >= M || isVisited[nextR][nextC] || maze[nextR][nextC] == '0') continue;
 
-			q.push({{ nextR,nextC }, cnt + 1});
+			isVisited[nextR][nextC] = isVisited[cur.first][cur.second] +1;
+			q.push({ { nextR,nextC }, cnt + 1 });
 		}
 	}
 
