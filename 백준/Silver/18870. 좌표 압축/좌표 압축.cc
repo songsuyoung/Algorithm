@@ -19,7 +19,7 @@ int main()
 		st.insert(arr[i]);
 	}
 
-	map<int, int> sorting;
+	unordered_map<int, int> sorting;
 
 	int idx=0;
 	for (const auto& order : st)
