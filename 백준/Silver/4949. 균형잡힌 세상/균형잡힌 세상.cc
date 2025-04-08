@@ -17,21 +17,11 @@ int main()
 			break; //종료조건
 		}
 
-		string sub="";
-		for (int i = 0; i < input.size(); i++)
-		{
-			if (input[i] == '(' || input[i] == ')' || input[i] == '[' || input[i] == ']')
-			{
-				sub+=input[i];
-			}
-		}
-
 		stack<char> st;
 		bool bIsFail = false;
-
-		for (int i = 0; i < sub.size(); i++)
+		for (int i = 0; i < input.size(); i++)
 		{
-			char ch = sub[i];
+			char ch = input[i];
 
 			if (ch == '(' || ch == '[') //열려있거나
 			{
