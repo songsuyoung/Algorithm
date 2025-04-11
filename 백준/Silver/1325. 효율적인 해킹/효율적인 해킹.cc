@@ -4,7 +4,7 @@ using namespace std;
 
 int cnt = 0;
 
-int dfs(vector<vector<int>>& computer,vector<bool>& isVisited, int cur)
+void dfs(vector<vector<int>>& computer,vector<bool>& isVisited, int cur)
 {	
 	isVisited[cur] = true;
 	for (int i = 0; i < computer[cur].size(); i++)
@@ -14,8 +14,6 @@ int dfs(vector<vector<int>>& computer,vector<bool>& isVisited, int cur)
 		dfs(computer, isVisited, computer[cur][i]);
 		cnt++;
 	}
-
-	return cnt;
 }
 int main()
 {
@@ -43,7 +41,6 @@ int main()
 		cnt = 0;
 		vector<bool> isVisited(10'005);
 		dfs(computer, isVisited, i);
-
 		counting.push_back(cnt);
 		maxValue = max(maxValue, cnt);
 	}
