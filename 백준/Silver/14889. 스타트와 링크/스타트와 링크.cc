@@ -1,33 +1,24 @@
 #include <bits/stdc++.h>
-#include <unordered_set>
 using namespace std;
 
 int recursive(int N, vector<vector<int>>& arr, vector<bool>& isVisited, int selected, int idx)
 {
-    if (selected <= 0)
+    if (N/2 <= selected)
     {
         int sum=0, sum1 = 0;
         for (int i = 0; i < N; i++)
         {
-            if (isVisited[i])
+            for (int j = i + 1; j < N; j++)
             {
-				for (int j = i + 1; j < N; j++)
-				{
-					if (isVisited[j])
-					{
-						sum += arr[i][j] + arr[j][i];
-					}
-				}
-            }
-            else
-			{
-				for (int j = i + 1; j < N; j++)
-				{
-					if (isVisited[j] == false)
-					{
-                        sum1 += arr[i][j] + arr[j][i];
-					}
-				}
+                if (isVisited[i] && isVisited[j])
+                {
+                    sum+=arr[i][j] + arr[j][i];
+                }
+                
+                if (!isVisited[i] && !isVisited[j])
+                {
+                    sum1+=arr[i][j] + arr[j][i];
+                }
             }
         }
         return abs(sum1 - sum);
@@ -39,7 +30,7 @@ int recursive(int N, vector<vector<int>>& arr, vector<bool>& isVisited, int sele
     {
         if(isVisited[i]) continue;
 		isVisited[i] = true;
-        answer = min(answer, recursive(N, arr, isVisited, selected-1, i+1));
+        answer = min(answer, recursive(N, arr, isVisited, selected+1, i+1));
         isVisited[i] = false;
     }
 
@@ -65,7 +56,10 @@ int main()
     }
 
     vector<bool> isVisited(N, 0);
-    cout<<recursive(N, arr, isVisited, N/2, 0)<<'\n';
+    
+    //조합 생각했을 때 8C4 를 의미함 즉, {0,1,2,3} vs {4,5,6,7} 이나 똑같은 선택.
+    isVisited[0] = true; //중복 제거에 매우 탁월
+    cout<<recursive(N, arr, isVisited, 1, 1)<<'\n';
 }
 
 /*
