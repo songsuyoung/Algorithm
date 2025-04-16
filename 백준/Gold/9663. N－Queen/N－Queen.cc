@@ -4,12 +4,13 @@ using namespace std;
 bool isChecking(int N, vector<vector<bool>>& board, int &r, int &c)
 {
 	//선택한 다음 행을 선택하기 때문에, 행에서는 같은 행이 있지않는다.
-	int rows[] = {-1,-1,-1};
-	int cols[] = {1,0,-1};
+	//아래에서 열에 대해 체크하기 때문에, 대각선만 확인한다.
+	int rows[] = {-1,-1};
+	int cols[] = {1, -1};
 
 	//8방향 N까지 갔을 때 겹치는 게 없어야함. => 행은 확인안해도 된다.
 	//위만 확인하면 된다. 생각해보니까 아래는 아직 놓지도 않았음.
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		int nextR = r;
 		int nextC = c;
