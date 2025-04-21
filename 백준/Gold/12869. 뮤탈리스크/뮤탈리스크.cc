@@ -3,7 +3,14 @@ using namespace std;
 
 int dp[65][65][65];
 
-int recursive(int N, int one, int two, int three)
+int cases[6][3] ={{9,3,1}
+				,{9,1,3}
+				,{3,9,1}
+				,{3,1,9}
+				,{1,9,3}
+				,{1,3,9}};
+
+int recursive(int one, int two, int three)
 {
 	if (one < 0)
 	{
@@ -25,29 +32,16 @@ int recursive(int N, int one, int two, int three)
 		return 0;
 	}
 
-	if (dp[one][two][three] != INT_MAX)
+	if (dp[one][two][three] != 987654321)
 	{
 		return dp[one][two][three];
 	}
 
-	if (N == 1)
+	
+	//6개의 경우의 수들 중 선택
+	for (int i = 0; i < 6; i++)
 	{
-		dp[one][two][three] = min(dp[one][two][three], recursive(N, one - 9, two, three) + 1);
-	}
-	else if (N == 2)
-	{
-		dp[one][two][three] = min(dp[one][two][three], recursive(N, one - 9, two - 3, three)+1);
-		dp[one][two][three] = min(dp[one][two][three], recursive(N, one - 3, two - 9, three)+1);
-	}
-	else
-	{
-		//N 3개
-		dp[one][two][three] = min(dp[one][two][three], recursive(N, one - 9, two - 3, three - 1) + 1);
-		dp[one][two][three] = min(dp[one][two][three], recursive(N, one - 9, two - 1, three - 3) + 1);
-		dp[one][two][three] = min(dp[one][two][three], recursive(N, one - 3, two - 9, three - 1) + 1);
-		dp[one][two][three] = min(dp[one][two][three], recursive(N, one - 3, two - 1, three - 9) + 1);
-		dp[one][two][three] = min(dp[one][two][three], recursive(N, one - 1, two - 3, three - 9) + 1);
-		dp[one][two][three] = min(dp[one][two][three], recursive(N, one - 1, two - 9, three - 3) + 1);
+		dp[one][two][three] = min(dp[one][two][three], recursive(one - cases[i][0], two - cases[i][1], three - cases[i][2]) + 1);
 	}
 
 	return dp[one][two][three];
@@ -75,10 +69,10 @@ int main()
 		{
 			for (int k = 60; k >= 0; k--)
 			{
-				dp[i][j][k] = INT_MAX;
+				dp[i][j][k] = 987654321;
 			}
 		}
 	}
 
-	cout<<recursive(N, scv[0], scv[1], scv[2])<<'\n';
+	cout<<recursive(scv[0], scv[1], scv[2])<<'\n';
 }
