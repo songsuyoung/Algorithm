@@ -4,14 +4,18 @@ using namespace std;
 int main()
 {
 	cin.tie(0);
+	cout.tie(0);
 	ios::sync_with_stdio(false);
+	
 
-	map<char,int> eng[2'005];
+	unordered_map<char,int> eng[200'005];
 
 	string input;
 	cin>>input;
 
-	for (int i = 0; i < input.size(); i++)
+	int len = input.size();
+
+	for (int i = 0; i < len; i++)
 	{
 		char ch = input[i];
 
@@ -30,9 +34,9 @@ int main()
 	{
 		char ch;
 		int st, ed;
-		cin>>ch>>st>>ed;
+		cin >> ch >> st >> ed;
 
-		cout<<eng[ed+1][ch] - eng[st][ch] << '\n';
+		cout << eng[ed + 1][ch] - eng[st][ch] << '\n';
 	}
 }
 
