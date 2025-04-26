@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int oper(int num1, int num2, char op)
+int operate(int num1, int num2, char op)
 {
 	switch (op)
 	{
@@ -13,27 +13,26 @@ int oper(int num1, int num2, char op)
 			return num1 * num2;
 	}
 }
-
 int answer = INT_MIN;
-
-void recursive(vector<int>& num, vector<char> &op, int idx, int sum)
+void recursive(vector<int>& number, vector<char>& op, int idx, int sum)
 {
-	if (op.size() <= idx)
+	if (idx >= op.size())
 	{
+		//선택할 수 없음.
 		answer = max(answer, sum);
 		return;
 	}
-	//선택 안한다. => 즉 바로 계산
-	recursive(num, op, idx+1, oper(sum, num[idx+1], op[idx]));
 
-	// 두칸 떨어진거 선택 => ㄴㄴ 먼저 계산하고 앞에꺼와 계산
-	if (idx + 2 < num.size())
+	//옆에 있는걸 선택한다.
+	recursive(number, op, idx + 1, operate(sum, number[idx + 1], op[idx]));
+
+	if (idx + 2 < number.size())
 	{
-		//선택한다. => 현재꺼 말고 다른 걸 먼저 계산
-		int temp = oper(num[idx + 1], num[idx + 2], op[idx + 1]); //다음거 먼저 계산
-		recursive(num, op, idx + 2, oper(sum, temp, op[idx])); //현재거 계산 후 현재, 다음을 건너뜀 -> 2칸, idx+2를 넘김
-	}
+		//멀리 있는걸 먼저 계산 한다.
+		int num = operate(number[idx + 1], number[idx + 2], op[idx + 1]);
 
+		recursive(number, op, idx+2, operate(sum, num, op[idx])); //3만큼 뛰어넘음
+	}
 }
 int main()
 {
@@ -47,14 +46,15 @@ int main()
 	string input;
 	cin>>input;
 
-	vector<int> num;
+	//op과 number를 나눈다.
 	vector<char> op;
+	vector<int> number;
 
 	for (int i = 0; i < input.size(); i++)
 	{
 		if (input[i] >= '0' && input[i] <= '9')
 		{
-			num.push_back(input[i]-'0');
+			number.push_back(input[i]-'0'); //숫자로 변환한다.
 		}
 		else
 		{
@@ -62,26 +62,13 @@ int main()
 		}
 	}
 
-	recursive(num, op, 0, num[0]);
+	recursive(number, op, 0, number[0]); //0은 항상 포함한다. 왜냐면 시작점이기때문 
 
 	cout<<answer<<'\n';
 }
 
-/*
-정수와 연산자 +,-,* 연산자 우선순위는 모두 같음. => 완전 탐색 - 최댓값
-무엇부터 계산하는지에 따라서 연산이 달라짐.
+// num num1 num2
+//    +    *
 
-1. operation 뽑아냄.
-2. operator 뽑아냄.
--> operator를 기준으로 while문 
--> 연산자 1개, 숫자 2개를 업데이트
--> 마지막 값 저장하고 answer에 max값 저장. 
-
-
-* op랑 num값이 존재할 때 실제로의 경우의 수
-* 1. 현재 idx를 먼저 계산한다.
-* 2. 다음 idx를 먼저 계산한다.
-*	-> 이 경우를 만족하려면 다음 idx의 숫자 num[idx+1]값과 num[idx+2] 값이 존재해야한다.
-* 
-* 두 경우의 수를 체크하면 풀 수 있는 문제..
-*/
+//   num1 * num2 먼저 계산
+//   + num
