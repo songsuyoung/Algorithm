@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool Jump(int R, int C, vector<string>& board, pair<int, int> junan)
+int Jump(int R, int C, vector<string>& board, pair<int, int> junan)
 {
 	int rows[] = { -1,1,0,0 };
 	int cols[] = { 0,0,-1,1 };
@@ -12,44 +12,47 @@ bool Jump(int R, int C, vector<string>& board, pair<int, int> junan)
 	q.push(junan);
 
 	vector<string> tmp = board;
-
+	int answer = 0;
 	while (!q.empty())
 	{
-		pair<int,int> cur = q.front();
+		queue<pair<int,int>> tmp = q;
 
-		q.pop();
+		answer++;
 
-		if(isVisited[cur.first][cur.second]) continue;
-
-		if (board[cur.first][cur.second] == '#')
+		while (!tmp.empty())
 		{
-			return true;
-		}
+			pair<int,int> cur = tmp.front();
+			tmp.pop();
 
-		isVisited[cur.first][cur.second] = true;
-		for (int i = 0; i < 4; i++)
-		{
-			int nextR = rows[i] + cur.first;
-			int nextC = cols[i] + cur.second;
+			if(isVisited[cur.first][cur.second]) continue;
 
-			if(nextR<0||nextC<0||nextR>=R||nextC>=C||isVisited[nextR][nextC]) continue; //퍼짐이 멈춘다.
-
-			//0일경우에는 퍼져나간다.
-			if (board[nextR][nextC] != '1')
+			if (board[cur.first][cur.second] == '#')
 			{
-				q.push({nextR,nextC});
+				return answer;
 			}
-			else
+			isVisited[cur.first][cur.second] = true;
+
+			for (int i = 0; i < 4; i++)
 			{
-				//1일경우에는 1->0으로 바꾸고 멈춘다.
-				tmp[nextR][nextC] = '0';
+				int nextR = rows[i] + cur.first;
+				int nextC = cols[i] + cur.second;
+
+				if(nextR<0||nextC<0||nextR>=R||nextC>=C||isVisited[nextR][nextC]) continue;
+
+				if (board[nextR][nextC] != '1')
+				{
+					tmp.push({nextR,nextC});
+				}
+				else
+				{
+					q.push({nextR, nextC});
+				}
 			}
 		}
 	}
 
-	board = tmp; //덮어쓴다.
 
-	return false;
+	return -1;
 }
 
 int main()
@@ -80,38 +83,6 @@ int main()
 		cin>>board[i];
 	}
 
-	int answer = 0;
+	cout<<Jump(N,M,board,junan)<<'\n';
 
-	while(true)
-	{
-		
-		//초코바를 못찾으면 점프해서 쓰러트린다.
-		bool res = Jump(N, M, board, junan);
-
-		answer++;
-
-		if (res)
-		{
-			break;
-		}
-
-	}
-
-	cout<<answer<<'\n';
 }
-
-/*
-주난이가 화가 남. 초코바가 사라짐.
-
-상하좌우로 4방향 친구들을 모두 쓰러트릴때까지 계속 퍼져 나감.
-
-
-예) * 주난 초코바 #
-
-한번의 점프로 한 겹 친구들이 쓰러짐.
-
-0을 만날때까지 친구들을 쓰러트림
-
-1. 친구를 쓰러트린다. 0일 경우에 1을 만날때까지 상하좌우 방문 => BFS
-2. 초코바를 만날 수 있는지 확인 => 경로 찾기 BFS
-*/
