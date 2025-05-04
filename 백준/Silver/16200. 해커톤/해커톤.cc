@@ -21,24 +21,10 @@ int main()
 
 	sort(v.begin(), v.end());
 
-	int i=0;
 	int answer=0;
-	while (i < N)
+	for (int i = 0; i < v.size(); i += v[i])
 	{
-
-		int team = v[i];
-
-		if (i + team < v.size())
-		{
-			answer++;
-			i+=team;
-		}
-		else
-		{
-			//마지막 한팀 처리
-			answer++;
-			break;
-		}
+		answer++;
 	}
 
 	cout<<answer<<'\n';
