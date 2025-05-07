@@ -3,7 +3,7 @@ using namespace std;
 
 int answer = INT_MAX;
 vector<int> temp;
-vector<vector<int>> arr[25'005];
+vector<vector<int>> arr[2505];
 
 void recursive(vector<vector<int>>& cook, vector<int>& target, int idx, int sum)
 {
