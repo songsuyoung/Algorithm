@@ -1,20 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-pair<int,string> answer(INT_MAX, "987654321");
-vector<int> v;
+int answer = INT_MAX;
+vector<int> temp;
 vector<vector<int>> arr[25'005];
 
-void recursive(vector<vector<int>>& cook, vector<int>& target, int idx, int sum, string selected)
+void recursive(vector<vector<int>>& cook, vector<int>& target, int idx, int sum)
 {
 	if (target[0] <= 0 && target[1] <= 0 && target[2] <= 0 && target[3] <= 0)
 	{
 		//모두 작을 때 영양분을 채운것.
 		
-		if (answer.first >= sum)
+		if (answer >= sum)
 		{
-			answer.first = sum;
-			arr[sum].push_back(v);
+			answer = sum;
+			arr[sum].push_back(temp);
 
 		}
 		return;
@@ -27,17 +27,17 @@ void recursive(vector<vector<int>>& cook, vector<int>& target, int idx, int sum,
 	}
 
 	//선택 안한다.
-	recursive(cook, target, idx+1, sum, selected);
+	recursive(cook, target, idx+1, sum);
 	// 영양분 채움
 	for (int i = 0; i < 4; i++)
 	{
 		target[i] -= cook[idx][i];
 	}
 
-	v.push_back(idx+1);
+	temp.push_back(idx+1);
 	// 비트 마스킹으로 무엇을 선택했는지 전달
-	recursive(cook, target, idx+1, sum + cook[idx][4], selected + to_string(idx+1)); //가격을 더함
-	v.pop_back();
+	recursive(cook, target, idx+1, sum + cook[idx][4]); //가격을 더함
+	temp.pop_back();
 
 	// 복구
 	for (int i = 0; i < 4; i++)
@@ -73,34 +73,23 @@ int main()
 		}
 	}
 
-	recursive(cook, target, 0, 0, "");
+	recursive(cook, target, 0, 0);
 
-	if (answer.first == INT_MAX)
+	if (answer == INT_MAX)
 	{
 		cout<<"-1\n";
 
 		return 0;
 	}
-	cout<<answer.first<<'\n';
+	cout<<answer<<'\n';
 
-	sort(arr[answer.first].begin(), arr[answer.first].end());
+	//정답인 값 중 사전순으로 정렬한다.
+	sort(arr[answer].begin(), arr[answer].end());
 
-	for (int i = 0; i < arr[answer.first][0].size(); i++)
+	for (int i = 0; i < arr[answer][0].size(); i++)
 	{
-		cout<<arr[answer.first][0][i]<<' ';
+		cout<<arr[answer][0][i]<<' ';
 	}
-
-	/*int idx = 1;
-	while (answer.second > 0)
-	{
-		if (answer.second % 2 == 1)
-		{
-			cout<<idx<<' ';
-		}
-
-		answer.second/=2;
-		idx++;
-	}*/
 }
 /*
 식재로 N개 중 몇 개를 선택해서 이들의 영양분(단백질/탄수화물/지방/비타민)이 일정 이상이어야함.
