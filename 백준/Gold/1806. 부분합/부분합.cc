@@ -26,7 +26,7 @@ int main()
 	{
 		sum += v[right];
 
-		while (left<=right && sum >= S)
+		while (sum >= S)
 		{
 			//S 이상이 되는 것 중 가장 짧은 길이
 			dist= min(dist, abs(right - left + 1));
