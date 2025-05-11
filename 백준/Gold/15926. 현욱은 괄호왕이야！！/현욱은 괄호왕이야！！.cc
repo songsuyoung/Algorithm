@@ -10,53 +10,40 @@ int main()
 	cin >> N;
 
 	//시작점 저장
-	stack<pair<char,int>> st;
+	stack<int> st;
 
 	string input;
 	cin >> input;
 
-	vector<bool> visited(N, false);
-
+	//vector<bool> bits(N, false);
+	int maxVal = 0;
+	int answer = 0;
+	st.push(-1); //이전위치부터 해야지, 고려되어진다. 모든 길이가
 	for (int i = 0; i < input.size(); i++)
 	{
 		char ch = input[i];
 
 		if (ch == '(')
 		{
-			st.push({ch,i});
+			st.push(i);
 		}
 		else
 		{
-			if (st.empty())
-			{
-				continue;
-			}
-			//성공 => 2의 배수
-			visited[st.top().second] = true;
-			visited[i] = true;
 
 			st.pop();
+			//성공 => 2의 배수
+			if (st.empty() == false)
+			{
+				answer = max(answer, abs(st.top() - i));
+			}
+			else{
+				st.push(i);
+				continue;
+			}
 		}
-	}
-
-	int maxVal = 0;
-	int answer = 0;
-	for (int i = 0; i < N; i++)
-	{
-		if (visited[i])
-		{
-			maxVal++;
-		}
-		else
-		{
-			maxVal = 0;
-		}
-
-		answer = max(answer, maxVal);
 	}
 
 	cout<<answer<<'\n';
-
 	return 0;
 }
 
