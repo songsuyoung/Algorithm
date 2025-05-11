@@ -11,14 +11,23 @@ int main()
 	int N;
 	cin >> N;
 
-	vector<int> v(N*N, 0);
+	//N개 작은 값만 남겨둔다.
+	priority_queue<int,vector<int>, greater<>> pq;
 
-	for (int i = 0; i < N * N; i++)
+	int x;
+	int i = 0;
+	for (; i < N * N; i++)
 	{
-		cin>>v[i];
+		cin >> x;
+
+		//5개를 유지한다.
+		pq.push(x);
+
+		if (pq.size() > N)
+		{
+			pq.pop();
+		}
 	}
 
-	sort(v.begin(), v.end());
-
-	cout<<v[N*N-N]<<'\n';
+	cout<<pq.top()<<'\n';
 }
