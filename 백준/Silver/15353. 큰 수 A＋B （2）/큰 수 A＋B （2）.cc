@@ -8,35 +8,28 @@ int main()
 
 	string first, second;
 
-	cin>>first>>second;
+	cin >> first >> second;
 
-	reverse(first.begin(), first.end());
-	reverse(second.begin(), second.end());
+	int maxLen = first.size()>second.size()? first.size() : second.size();
 
-	string output="";
-	int i = 0;
+	//123
+	for (int i = first.size(); i < maxLen; i++)
+	{
+		first.insert(0,"0");
+	}
+
+	//500 => 005로 만들어준다
+	for (int i = second.size(); i < maxLen; i++)
+	{
+		second.insert(0,"0");
+	}
+
+	string output = "";
 	int carry = 0;
-	while (i < first.size() && i < second.size())
+	for(int i= maxLen-1; i>=0; i--)
 	{
-		int sum = ((first[i]-'0') + (second[i] - '0')) + carry; //숫자로 변환
+		int sum = ((first[i] - '0') + (second[i] - '0')) + carry; //숫자로 변환
 
-		carry = sum / 10; //다음 캐리가 있는지 확인
-		sum -= (10*carry);
-		output+=(sum+'0');
-		i++;
-	}
-
-	for (; i < first.size(); i++)
-	{
-		int sum = (first[i]-'0') + carry;
-		carry = sum / 10; //다음 캐리가 있는지 확인
-		sum -= (10 * carry);
-		output += (sum + '0');
-	}
-
-	for (; i < second.size(); i++)
-	{
-		int sum = (second[i] - '0') + carry;
 		carry = sum / 10; //다음 캐리가 있는지 확인
 		sum -= (10 * carry);
 		output += (sum + '0');
@@ -44,14 +37,10 @@ int main()
 
 	if (carry)
 	{
-		output+=(carry+'0');
+		output += (carry + '0');
 	}
 
 	reverse(output.begin(), output.end());
-	cout<<output<<'\n';
+
+	cout << output << '\n';
 }
-
-/*
-오큰수..
-
-*/
